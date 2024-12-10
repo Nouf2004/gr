@@ -1,0 +1,21 @@
+reports = Report.query.filter(Report.date >= start_date).all()
+    elif period == 'yearly':
+        start_date = current_date.replace(month=1, day=1)
+        reports = Report.query.filter(Report.date >= start_date).all()
+    else:
+        return jsonify({"message": "Invalid period!"}), 400
+
+    result = []
+    for report in reports:
+        result.append({
+            'id': report.id,
+            'content': report.content,
+            'report_type': report.report_type,
+            'date': report.date,
+            'diver': report.diver.name if report.diver else 'N/A'
+        })
+    
+    return jsonify(result), 200
+
+if name == '__main__':
+    app.run(debug=True)
